@@ -10,7 +10,7 @@ export function interact(w){
  if(w.screen!=='playing')return;
  if(w.chef.held){const item=w.chef.held;
   if(item.endsWith('_chopped')&&nearby(w,'assembly')){w.assembly.push(item.replace('_chopped',''));w.chef.held=null;w.message='Freshly chopped';return}
-  if(INGREDIENTS[item]?.chop){if(nearby(w,'board')){if(!w.board||w.board.item!==item)w.board={item,chop:0};w.board.chop++;if(w.board.chop>=3){w.chef.held=item+'_chopped';w.board=null}w.message='Chop!';return}w.message='Take it to the board';return}
+  if(INGREDIENTS[item]?.chop){if(nearby(w,'board')){if(!w.board||w.board.item!==item)w.board={item,chop:0};w.board.chop++;if(w.board.chop>=3){w.board.ready=true;w.chef.held=null}w.message='Chop!';return}w.message='Take it to the board';return}
   if(INGREDIENTS[item]?.cook){if(nearby(w,'stove')){const empty=w.pans.findIndex(p=>!p);if(empty>=0){w.pans[empty]={item,cook:0,burn:0};w.chef.held=null;w.message='On the heat';return}}w.message='Take it to a pan';return}
   if(nearby(w,'assembly')){w.assembly.push(item);w.chef.held=null;w.message='Added to plate';return}
   w.message='Carry it to assembly';return;
